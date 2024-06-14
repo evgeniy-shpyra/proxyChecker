@@ -11,7 +11,7 @@ RUN mkdir /app && chown -R node:node /app
 
 WORKDIR /app
 
-RUN mkdir -p /app/store && chown -R node:node /app/store
+RUN mkdir /store && chown -R node:node /store
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
 # Leverage a cache mount to /root/.npm to speed up subsequent builds.
