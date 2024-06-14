@@ -29,7 +29,6 @@ const check = async (proxies, sleepTime) => {
     })
 
     try {
-      throw new Error('Bad response')
       const response = await request(url, {
         method: 'POST',
         dispatcher: proxyAgent,
