@@ -12,3 +12,4 @@ services:
       - .env
     volumes:
       - ./store:/store
+      - ./store/store.json:/store/store.json
