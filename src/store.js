@@ -12,8 +12,10 @@ const initStore = async () => {
     await fs.promises.mkdir(dirPath, { recursive: true })
   }
 
+  console.log("res:", fs.existsSync(fullPath))
   if (!fs.existsSync(fullPath)) {
-    await fs.promises.writeFile(fullPath, '')
+    console.log('creation')
+    await fs.promises.writeFile(fullPath, '[]')
   }
 
   const write = async (data) => {
