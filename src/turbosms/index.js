@@ -61,6 +61,7 @@ const check = async (proxies, sleepTime) => {
       result.badProxies.push(proxy)
       result.error++
     } finally {
+      console.log('Turbosms checked')
       await proxyAgent.close()
     }
     await sleep(sleepTime)

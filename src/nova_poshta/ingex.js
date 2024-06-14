@@ -45,7 +45,7 @@ const check = async (proxies, sleepTime = 1000) => {
           responseBody.errorCodes.includes('20000401501'))
       ) {
         result.success++
-        
+      
       } else {
         throw new Error('Bad response')
       } 
@@ -56,7 +56,7 @@ const check = async (proxies, sleepTime = 1000) => {
     } finally {
       await proxyAgent.close()
     }
-
+    console.log('Np checked')
     await sleep(sleepTime)
   }
 

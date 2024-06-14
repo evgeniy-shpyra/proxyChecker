@@ -81,6 +81,7 @@ const check = async (proxies, sleepTime) => {
       result.error++
       token = null
     } finally {
+      console.log('Rozetka checked')
       await proxyAgent.close()
     }
     await sleep(sleepTime)
