@@ -12,9 +12,7 @@ const initStore = async () => {
     await fs.promises.mkdir(dirPath, { recursive: true })
   }
 
-  console.log("res:", fs.existsSync(fullPath))
   if (!fs.existsSync(fullPath)) {
-    console.log('creation')
     await fs.promises.writeFile(fullPath, '[]')
   }
 
@@ -28,6 +26,8 @@ const initStore = async () => {
     })
     return data
   }
+
+  console.log('Existed chat ids:', await read())
 
   return { write, read }
 }
