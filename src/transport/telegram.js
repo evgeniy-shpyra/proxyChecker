@@ -86,7 +86,7 @@ const initTelegram = ({ checker, store }) => {
     await sendMenu(chatId)
   })
 
-  bot.on('callback_query', (query) => {
+  bot.on('callback_query', async (query) => {
     const chatId = query.message.chat.id
     const messageId = query.message.message_id
 
@@ -100,6 +100,7 @@ const initTelegram = ({ checker, store }) => {
     }
 
     bot.deleteMessage(chatId, messageId)
+    await addChatId(chatId)
   })
 
   bot.on('message', (msg) => {
