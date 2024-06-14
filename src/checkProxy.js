@@ -1,0 +1,79 @@
+import checkNp from './nova_poshta/ingex.js'
+import checkUp from './ukr_poshta/index.js'
+import checkCheckBox from './checkbox/index.js'
+import checkProm from './prom/index.js'
+import checkRozetka from './rozetka/index.js'
+import checkNextel from './nextel/index.js'
+import checkTurbosms from './turbosms/index.js'
+import { getProxies } from './proxyHelper.js'
+import { telegramErrorMessageWrapper } from './helpers.js'
+
+const iniProxyChecker = () => {
+  const proxies = getProxies()
+  const sleepTime = Number(process.env.SLEEP_TIME)
+
+  const check = async () => {
+    const modules = [
+      {
+        handler: () => checkNp(proxies, sleepTime),
+        title: 'Нова пошта',
+      },
+      {
+        handler: () => checkUp(proxies, sleepTime),
+        title: 'Укр пошта',
+      },
+      {
+        handler: () => checkCheckBox(proxies, sleepTime),
+        title: 'CheckBox',
+      },
+      {
+        handler: () => checkRozetka(proxies, sleepTime),
+        title: 'Rozetka',
+      },
+      {
+        handler: () => checkProm(proxies, sleepTime),
+        title: 'Prom',
+      },
+      {
+        handler: () => checkNextel(proxies, sleepTime),
+        title: 'Nextel',
+      },
+      {
+        handler: () => checkTurbosms(proxies, sleepTime),
+        title: 'TurboSMS',
+      },
+    ]
+
+    const promises = []
+
+    for (const module of modules) {
+      const { title, handler } = module
+      const check = async () => {
+        const result = await handler()
+        return { ...result, title }
+      }
+      promises.push(check())
+    }
+
+    const response = []
+    const results = await Promise.all(promises)
+
+    for (const result of results) {
+      if (result.error > 0) {
+        response.push({
+          title: result.title,
+          proxies: result.badProxies,
+        })
+      }
+    }
+
+    if (!response.length) return null
+    const message = telegramErrorMessageWrapper(response)
+
+    return message
+  }
+
+  return check
+}
+
+export default iniProxyChecker

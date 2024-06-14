@@ -1,0 +1,20 @@
+{
+  "name": "check-proxiyes",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./main.js",
+    "dev": "node --watch --env-file=.env ./main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.66.0",
+    "soap": "^1.0.3",
+    "toad-scheduler": "^3.0.1",
+    "undici": "^6.18.2"
+  }
+}

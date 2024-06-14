@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: .
+    container_name: proxy-checker
+    restart: always
+    environment:
+      - TZ=Europe/Kiev
+    env_file:
+      - .env
+    volumes:
+      - ./store:/app/store
