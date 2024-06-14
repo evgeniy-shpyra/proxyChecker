@@ -5,6 +5,7 @@ import initStore from './store.js'
 
 const app = async () => {
   const store = await initStore()
+  await store.write("[232323232]")
   const checker = iniProxyChecker()
   const telegram = initTelegram({ checker, store })
   const scheduler = initScheduler()
