@@ -11,4 +11,4 @@ services:
     env_file:
       - .env
     volumes:
-      - ./src/store:/store
+      - ./store:/app/store
