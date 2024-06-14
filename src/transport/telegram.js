@@ -39,7 +39,7 @@ const initTelegram = ({ checker, store }) => {
   const handleCheck = async (chatId) => {
     try {
       const waitingMsg = await bot.sendMessage(chatId, `Тестування...`)
-
+      console.log("handleCheck", new Date().toLocaleString())
       const errorMessage = await checker()
       let message = null
 

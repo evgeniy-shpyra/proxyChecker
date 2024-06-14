@@ -12,7 +12,7 @@ const app = async () => {
 
   const handler = async () => {
     try {
-      console.log('handler')
+      console.log('handler', new Date().toLocaleString())
       const message = await checker()
       if (!message) return
       telegram.sendMessageToAll(message)
