@@ -9,7 +9,7 @@ const body = {
 const getHeaders = () => ({
   'Content-Type': 'application/json',
   'accept': 'application/json',
-  'Authorization': randomString(12),
+  'Authorization': process.env.NEXTEL_KEY,
 })
 
 const check = async (proxies, sleepTime) => {
@@ -37,16 +37,13 @@ const check = async (proxies, sleepTime) => {
 
       const responseBody = await response.body.json()
 
-      if (
-        responseBody.status === 'Error' &&
-        responseBody.message === 'Authorization invalid'
-      ) {
+      if (responseBody.audios || responseBody.message === 'Authorization invalid') {
         result.success++
       } else {
         throw new Error('Bad response')
       }
     } catch (e) {
-      console.error("nextel error", e.message, proxy)
+      console.error('nextel error', e.message, proxy)
       result.badProxies.push(proxy)
       result.error++
     } finally {
