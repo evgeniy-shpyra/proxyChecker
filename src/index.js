@@ -21,7 +21,6 @@ const app = async () => {
   }
 
   scheduler.schedule(handler, '30 8 * * *')
-  scheduler.schedule(handler, '* * * * *')
   scheduler.schedule(handler, '0 13 * * *')
   scheduler.schedule(handler, '0 19 * * *')
 
