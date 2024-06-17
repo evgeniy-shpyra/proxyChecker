@@ -27,7 +27,7 @@ const check = async (proxies, sleepTime) => {
         dispatcher: proxyAgent,
         headers,
       })
-      throw new Error('Bad response')
+
       const responseBody = await response.body.json()
       if (responseBody.orders) {
         result.success++
