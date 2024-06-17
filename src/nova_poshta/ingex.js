@@ -1,7 +1,6 @@
 import { request, ProxyAgent } from 'undici'
 import { setTimeout as sleep } from 'node:timers/promises'
 
-
 const body = {
   apiKey: process.env.NP_API_KEY,
   modelName: 'InternetDocumentGeneral',
@@ -15,11 +14,10 @@ const body = {
 const url = 'https://api.novaposhta.ua/v2.0/json/'
 
 const check = async (proxies, sleepTime = 1000) => {
-
   const result = {
     success: 0,
     error: 0,
-    badProxies: [],
+    data: [],
   }
 
   for (const proxy of proxies) {
@@ -38,20 +36,19 @@ const check = async (proxies, sleepTime = 1000) => {
       })
 
       const responseBody = await response.json()
-      
+
       if (
         responseBody.success ||
         (responseBody.errorCodes &&
           responseBody.errorCodes.includes('20000401501'))
       ) {
         result.success++
-      
       } else {
         throw new Error('Bad response')
-      } 
+      }
     } catch (e) {
-      console.error("np error", e.message, proxy)
-      result.badProxies.push(proxy)
+      console.error('np error', e, proxy)
+      result.data.push({ proxy, message: e.message })
       result.error++
     } finally {
       await proxyAgent.close()

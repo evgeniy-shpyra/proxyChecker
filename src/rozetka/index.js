@@ -76,8 +76,8 @@ const check = async (proxies, sleepTime) => {
         throw new Error('Bad response')
       }
     } catch (e) {
-      console.error("rozetka error", e.message, proxy)
-      result.badProxies.push(proxy)
+      console.error("rozetka error", e, proxy)
+      result.badProxies.push({ proxy, message: e.message })
       result.error++
       token = null
     } finally {

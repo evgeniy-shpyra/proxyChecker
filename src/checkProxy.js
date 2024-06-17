@@ -3,7 +3,6 @@ import checkUp from './ukr_poshta/index.js'
 import checkCheckBox from './checkbox/index.js'
 import checkProm from './prom/index.js'
 import checkRozetka from './rozetka/index.js'
-import checkNextel from './nextel/index.js'
 import checkTurbosms from './turbosms/index.js'
 import { getProxies } from './proxyHelper.js'
 import { telegramErrorMessageWrapper } from './helpers.js'
@@ -35,10 +34,6 @@ const iniProxyChecker = () => {
         title: 'Prom',
       },
       {
-        handler: () => checkNextel(proxies, sleepTime),
-        title: 'Nextel',
-      },
-      {
         handler: () => checkTurbosms(proxies, sleepTime),
         title: 'TurboSMS',
       },
@@ -58,14 +53,20 @@ const iniProxyChecker = () => {
     const response = []
     const results = await Promise.all(promises)
 
+   
     for (const result of results) {
+    
       if (result.error > 0) {
+
+        const { title, data } = result
+
         response.push({
-          title: result.title,
-          proxies: result.badProxies,
+          title,
+          data
         })
       }
     }
+
 
     if (!response.length) return null
     const message = telegramErrorMessageWrapper(response)

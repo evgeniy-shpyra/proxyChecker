@@ -10,7 +10,7 @@ const check = async (proxies, sleepTime) => {
   const result = {
     success: 0,
     error: 0,
-    badProxies: [],
+    data: [],
   }
 
   for (const proxy of proxies) {
@@ -27,6 +27,7 @@ const check = async (proxies, sleepTime) => {
         dispatcher: proxyAgent,
         headers,
       })
+      throw new Error('Bad response')
       const responseBody = await response.body.json()
       if (responseBody.orders) {
         result.success++
@@ -34,8 +35,8 @@ const check = async (proxies, sleepTime) => {
         throw new Error('Bad response')
       }
     } catch (e) {
-      console.error("prom error", e.message, proxy)
-      result.badProxies.push(proxy)
+      console.error("prom error", e, proxy)
+      result.data.push({  proxy, message: e.message })
       result.error++
     } finally {
       console.log('Prom checked')

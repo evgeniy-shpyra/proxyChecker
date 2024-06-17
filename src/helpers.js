@@ -4,15 +4,22 @@ export const randomString = (i) => {
   return rnd.substring(0, i)
 }
 
-export const telegramErrorMessageWrapper = (errors) => {
-  let message = 'Не вдалося отримати відповідь:\n\n'
+export const telegramErrorMessageWrapper = (modules) => {
+  const errorMessage = '*Не вдалося отримати відповідь:*'
 
-  for (const error of errors) {
-    const proxies = error.proxies.reduce(
-      (acc, err) => acc + `${err.ip}:${err.username}:${err.password}\n`,
-      ''
-    )
-    message += `${error.title}:\n${proxies}`
+  const messages = []
+
+  for (const module of modules) {
+    const { title, data } = module
+    const badProxies = []
+
+    for (const { message, proxy } of data) {
+      const { ip, username, password } = proxy
+      badProxies.push(`${ip} - message: ${message}`)
+    }
+
+    messages.push(`${title}:\n${badProxies.join('\n')}`)
   }
-  return message
+
+  return `${errorMessage}\n${messages.join('\n')}`
 }
