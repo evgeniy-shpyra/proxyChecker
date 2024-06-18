@@ -21,9 +21,7 @@ const app = async () => {
     }
   }
 
-  scheduler.schedule(handler, '30 8 * * *')
-  scheduler.schedule(handler, '0 13 * * *')
-  scheduler.schedule(handler, '0 19 * * *')
+  scheduler.schedule(handler, '30 9,17,13 * * *')
 
   let isStopped = false
   const handleStop = () => {
