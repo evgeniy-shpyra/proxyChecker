@@ -6,7 +6,7 @@ export const getProxies = () => {
 
 export const getProxyList = () => {
   const message = proxies.reduce(
-    (acc, err) => acc + `${err.ip}:${err.username}:${err.password}\n`,
+    (acc, err) => acc + `${err.ip}\n`,
     ''
   )
   return message
