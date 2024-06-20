@@ -17,10 +17,10 @@ const iniProxyChecker = () => {
         handler: () => checkNp(proxies, sleepTime),
         title: 'Нова пошта',
       },
-      {
-        handler: () => checkUp(proxies, sleepTime),
-        title: 'Укр пошта',
-      },
+      // {
+      //   handler: () => checkUp(proxies, sleepTime),
+      //   title: 'Укр пошта',
+      // },
       {
         handler: () => checkCheckBox(proxies, sleepTime),
         title: 'CheckBox',
