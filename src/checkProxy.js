@@ -1,5 +1,5 @@
 import checkNp from './nova_poshta/ingex.js'
-import checkUp from './ukr_poshta/index.js'
+import checkBinotel from './binotel/index.js'
 import checkCheckBox from './checkbox/index.js'
 import checkProm from './prom/index.js'
 import checkRozetka from './rozetka/index.js'
@@ -17,10 +17,10 @@ const iniProxyChecker = () => {
         handler: () => checkNp(proxies, sleepTime),
         title: 'Нова пошта',
       },
-      // {
-      //   handler: () => checkUp(proxies, sleepTime),
-      //   title: 'Укр пошта',
-      // },
+      {
+        handler: () => checkBinotel(proxies, sleepTime),
+        title: 'Binotel',
+      },
       {
         handler: () => checkCheckBox(proxies, sleepTime),
         title: 'CheckBox',
