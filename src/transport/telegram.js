@@ -4,6 +4,7 @@ import { getProxyList } from '../proxyHelper.js'
 const initTelegram = ({ checker, store }) => {
   const menuMessageId = {}
   const token = process.env.TELEGRAM_TOKEN
+  const passphrase = process.env.TELEGRAM_PASSPHRASE
 
   const bot = new TelegramBot(token, { polling: true })
 
@@ -11,6 +12,11 @@ const initTelegram = ({ checker, store }) => {
     const data = await store.read()
     if (data) return JSON.parse(data)
     else return []
+  }
+
+  const isVerifiedMember = async (id) => {
+    const users = await getChatIds()
+    return (users.includes(id))
   }
 
   const addChatId = async (id) => {
@@ -92,8 +98,10 @@ const initTelegram = ({ checker, store }) => {
     }
   }
 
-  bot.onText(/\/start/, async (msg) => {
+  bot.onText(/(?<=\/start\s)[\w-]+/, async (msg, result) => {
     const chatId = msg.chat.id
+    const [phrase] = result ?? []
+    if(passphrase !== phrase) return
     await addChatId(chatId)
     await sendMenu(chatId)
   })
@@ -101,6 +109,9 @@ const initTelegram = ({ checker, store }) => {
   bot.on('callback_query', async (query) => {
     const chatId = query.message.chat.id
     const messageId = query.message.message_id
+
+    const isVerified = await isVerifiedMember(chatId)
+    if(!isVerified) return
 
     switch (query.data) {
       case 'show_list':
@@ -119,6 +130,8 @@ const initTelegram = ({ checker, store }) => {
     try {
       const chatId = msg.chat.id
       const messageId = msg.message_id
+      const isVerified = await isVerifiedMember(chatId)
+      if(!isVerified) return
       await addChatId(chatId)
 
       const message = msg.text.toString()
