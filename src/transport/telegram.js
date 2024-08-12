@@ -14,6 +14,11 @@ const initTelegram = ({ checker, store }) => {
     else return []
   }
 
+  const isVerifiedMember = async (id) => {
+    const users = await getChatIds()
+    return (users.includes(id))
+  }
+
   const addChatId = async (id) => {
     const existedIds = await getChatIds()
     if (existedIds.includes(id)) return
@@ -105,6 +110,9 @@ const initTelegram = ({ checker, store }) => {
     const chatId = query.message.chat.id
     const messageId = query.message.message_id
 
+    const isVerified = await isVerifiedMember(chatId)
+    if(!isVerified) return
+
     switch (query.data) {
       case 'show_list':
         handleShowProxies(chatId)
@@ -122,6 +130,8 @@ const initTelegram = ({ checker, store }) => {
     try {
       const chatId = msg.chat.id
       const messageId = msg.message_id
+      const isVerified = await isVerifiedMember(chatId)
+      if(!isVerified) return
       await addChatId(chatId)
 
       const message = msg.text.toString()
