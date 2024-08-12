@@ -101,6 +101,7 @@ const initTelegram = ({ checker, store }) => {
   bot.onText(/(?<=\/start\s)[\w-]+/, async (msg) => {
     const chatId = msg.chat.id
     const [command, phrase] = msg.split(' ')
+    console.log(passphrase, phrase)
     if(passphrase !== phrase) return
     await addChatId(chatId)
     await sendMenu(chatId)
