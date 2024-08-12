@@ -4,6 +4,7 @@ import { getProxyList } from '../proxyHelper.js'
 const initTelegram = ({ checker, store }) => {
   const menuMessageId = {}
   const token = process.env.TELEGRAM_TOKEN
+  const passphrase = process.env.TELEGRAM_PASSPHRASE
 
   const bot = new TelegramBot(token, { polling: true })
 
@@ -92,8 +93,10 @@ const initTelegram = ({ checker, store }) => {
     }
   }
 
-  bot.onText(/\/start/, async (msg) => {
+  bot.onText(/(?<=\/start\s)[\w-]+/, async (msg) => {
     const chatId = msg.chat.id
+    const [command, phrase] = msg.split(' ')
+    if(passphrase !== phrase) return
     await addChatId(chatId)
     await sendMenu(chatId)
   })
