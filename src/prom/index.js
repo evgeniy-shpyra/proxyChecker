@@ -3,14 +3,14 @@ import { setTimeout as sleep } from 'node:timers/promises'
 
 const url = `https://my.prom.ua/api/v1/orders/list?limit=1`
 const headers = {
-  Authorization: `Bearer ${process.env.PROM_API_KEY}`,
+  Authorization: `Bearer ${process.env.PROM_API_KEY}`
 }
 
 const check = async (proxies, sleepTime) => {
   const result = {
     success: 0,
     error: 0,
-    data: [],
+    data: []
   }
 
   for (const proxy of proxies) {
@@ -18,17 +18,18 @@ const check = async (proxies, sleepTime) => {
     const proxyToken = Buffer.from(`${username}:${password}`).toString('base64')
     const proxyAgent = new ProxyAgent({
       uri: `http://${proxy.ip}`,
-      token: `Basic ${proxyToken}`,
+      token: `Basic ${proxyToken}`
     })
 
+    let headers
     try {
       const response = await request(url, {
         method: 'GET',
         dispatcher: proxyAgent,
-        headers,
+        headers
       })
 
-      console.log(response.headers)
+      headers = response.headers
       const responseBody = await response.body.json()
       if (responseBody.orders) {
         result.success++
@@ -36,8 +37,8 @@ const check = async (proxies, sleepTime) => {
         throw new Error('Bad response')
       }
     } catch (e) {
-      console.error("prom error", e, proxy)
-      result.data.push({  proxy, message: e.message })
+      console.error('prom error', e, proxy, { promResponseHeaders: headers })
+      result.data.push({ proxy, message: e.message })
       result.error++
     } finally {
       console.log('Prom checked')
@@ -45,8 +46,6 @@ const check = async (proxies, sleepTime) => {
     }
     await sleep(sleepTime)
   }
-
-  
 
   return result
 }
