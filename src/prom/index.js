@@ -30,6 +30,11 @@ const check = async (proxies, sleepTime) => {
       })
 
       headers = response.headers
+      if (!headers['content-type'].startsWith('application/json')) {
+        const responseBody = await response.body.text()
+        console.log('prom error', responseBody)
+        throw new Error('Bad response')
+      }
       const responseBody = await response.body.json()
       if (responseBody.orders) {
         result.success++
@@ -37,7 +42,7 @@ const check = async (proxies, sleepTime) => {
         throw new Error('Bad response')
       }
     } catch (e) {
-      console.error('prom error', e, proxy, { promResponseHeaders: headers })
+      console.error('prom error', e, proxy)
       result.data.push({ proxy, message: e.message })
       result.error++
     } finally {
