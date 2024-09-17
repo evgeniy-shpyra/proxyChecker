@@ -21,7 +21,7 @@ const check = async (proxies, sleepTime) => {
       token: `Basic ${proxyToken}`
     })
 
-    let headers
+    let responseHeaders
     try {
       const response = await request(url, {
         method: 'GET',
@@ -29,8 +29,8 @@ const check = async (proxies, sleepTime) => {
         headers
       })
 
-      headers = response.headers
-      if (!headers['content-type'].startsWith('application/json')) {
+      responseHeaders = response.headers
+      if (!responseHeaders['content-type'].startsWith('application/json')) {
         const responseBody = await response.body.text()
         console.log('prom error', responseBody)
         throw new Error('Bad response')
