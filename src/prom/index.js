@@ -28,7 +28,6 @@ const check = async (proxies, sleepTime) => {
         headers,
       })
 
-      console.log('content-type:', response.headers.get('content-type'))
       const responseBody = await response.body.json()
       if (responseBody.orders) {
         result.success++
