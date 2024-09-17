@@ -16,5 +16,8 @@
     "soap": "^1.0.3",
     "toad-scheduler": "^3.0.1",
     "undici": "^6.18.2"
+  },
+  "devDependencies": {
+    "undici-types": "^6.19.8"
   }
 }
