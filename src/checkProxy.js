@@ -1,6 +1,5 @@
 import checkNp from './nova_poshta/ingex.js'
 import checkBinotel from './binotel/index.js'
-import checkCheckBox from './checkbox/index.js'
 import checkProm from './prom/index.js'
 import checkRozetka from './rozetka/index.js'
 import checkTurbosms from './turbosms/index.js'
@@ -20,10 +19,6 @@ const iniProxyChecker = () => {
       {
         handler: () => checkBinotel(proxies, sleepTime),
         title: 'Binotel',
-      },
-      {
-        handler: () => checkCheckBox(proxies, sleepTime),
-        title: 'CheckBox',
       },
       {
         handler: () => checkRozetka(proxies, sleepTime),
