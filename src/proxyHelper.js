@@ -1,4 +1,4 @@
-import proxies from '../proxy.json' assert { type: 'json' }
+import proxies from '../proxy.json' with { type: 'json' }
 
 export const getProxies = () => {
   return proxies
